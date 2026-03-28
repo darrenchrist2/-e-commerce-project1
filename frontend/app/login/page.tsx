@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function Page() {
-  // State untuk menyimpan nilai input username.
+    // State untuk menyimpan nilai input username.
     const [username, setUsername] = useState("");
 
     // State untuk menyimpan nilai input password.
@@ -144,12 +144,13 @@ export default function Page() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword((prev) => !prev)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition-colors duration-200 hover:text-slate-600"
+                                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 cursor-pointer text-slate-400 transition-colors duration-200 hover:text-slate-600"
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? (
-                                    <i className="ri-eye-off-fill text-lg"></i>
+                                    <i className="ri-eye-off-fill pointer-events-none text-lg"></i>
                                 ) : (
-                                    <i className="ri-eye-fill text-lg"></i>
+                                    <i className="ri-eye-fill pointer-events-none text-lg"></i>
                                 )}
                             </button>
                         </div>
