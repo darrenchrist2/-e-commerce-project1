@@ -47,7 +47,7 @@ export default function Page() {
 
     return (
         // Wrapper utama dibuat full screen agar card benar-benar center secara vertikal dan horizontal.
-        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 px-6 py-10">
+        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 px-4 py-6 sm:px-6 sm:py-10">
             {/* Background dekoratif dibuat soft agar tetap modern, cerah, dan tidak terlalu mencolok. */}
             <div className="absolute inset-0">
                 <div className="absolute -left-32 -top-24 h-72 w-72 rounded-full bg-sky-100/70 blur-3xl" />
@@ -56,17 +56,17 @@ export default function Page() {
             </div>
 
             {/* Card login diberi animasi fade-up saat pertama kali muncul. */}
-            <section className="relative w-full max-w-md animate-[fadeUp_.8s_ease-out] rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:p-10">
-                <div className="mb-8 text-center">
+            <section className="relative w-full max-w-md animate-[fadeUp_.8s_ease-out] rounded-2xl border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:rounded-3xl sm:p-8 lg:p-10">
+                <div className="mb-6 text-center sm:mb-8">
                     {/* Badge kecil untuk memberi identitas visual yang rapi. */}
-                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-lg font-semibold text-slate-700 shadow-sm transition-transform duration-300 hover:scale-105">
-                    <i className="ri-shopping-cart-2-fill"></i>
+                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-base font-semibold text-slate-700 shadow-sm transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 sm:text-lg">
+                        <i className="ri-shopping-cart-2-fill"></i>
                     </div>
 
-                    <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
                         Welcome back!
                     </h1>
-                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                    <p className="mt-2 text-sm leading-5 text-slate-500 sm:leading-6">
                         Please sign in to continue
                     </p>
                 </div>
@@ -78,7 +78,7 @@ export default function Page() {
                     }`}
                 >
                     <div className="overflow-hidden">
-                        <div className="flex items-start justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        <div className="flex items-start justify-between gap-2 rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-3 text-sm text-emerald-700 sm:gap-3 sm:px-4">
                         
                             {/* Text message */}
                             <span className="leading-relaxed">{message}</span>
@@ -96,7 +96,7 @@ export default function Page() {
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div className="space-y-2">
                         <label
                             htmlFor="username"
@@ -114,7 +114,7 @@ export default function Page() {
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Enter your username"
                                 autoComplete="username"
-                                className="h-12 w-full rounded-2xl bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                                className="h-11 w-full rounded-2xl bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:h-12"
                             />
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default function Page() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your password"
                                 autoComplete="current-password"
-                                className="h-12 w-full rounded-2xl bg-transparent px-4 pr-12 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                                className="h-11 w-full rounded-2xl bg-transparent px-4 pr-12 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:h-12"
                             />
 
                             {/* Icon mata di dalam input */}
@@ -155,7 +155,7 @@ export default function Page() {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 pt-1">
+                    <div className="flex flex-col items-start gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                         <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-500">
                             <input
                                 type="checkbox"
@@ -176,7 +176,7 @@ export default function Page() {
                         type="submit"
                         disabled={!isFormValid || isLoading}
                         // Tombol punya state hover, active, disabled, dan loading agar pengalaman terasa hidup.
-                        className="group relative flex h-12 w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-800 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300"
+                        className="group relative flex h-11 w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-800 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 sm:h-12"
                     >
                         <span
                             className={`absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] transition-transform duration-700 ${
@@ -194,7 +194,7 @@ export default function Page() {
                     </button>
                 </form>
 
-                <p className="mt-6 text-center text-xs text-slate-400">
+                <p className="mt-5 text-center text-[11px] text-slate-400 sm:mt-6 sm:text-xs">
                     Protected access for authorized users only.
                 </p>
             </section>
