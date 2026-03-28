@@ -9,24 +9,6 @@ type ProductSuggestion = {
     price: string;
 };
 
-const MOCK_PRODUCTS: ProductSuggestion[] = [
-    { id: 1, name: "Sepatu Lari Pria AirFlex", category: "Sepatu", price: "Rp 499.000" },
-    { id: 2, name: "Sepatu Sneakers Wanita Cloud Street", category: "Sepatu", price: "Rp 549.000" },
-    { id: 3, name: "Tas Selempang Urban Basic", category: "Tas", price: "Rp 279.000" },
-    { id: 4, name: "Tas Kerja Minimalist Pro", category: "Tas", price: "Rp 399.000" },
-    { id: 5, name: "Jam Tangan Chrono Active", category: "Aksesoris", price: "Rp 899.000" },
-    { id: 6, name: "Headphone Wireless SonicBeat", category: "Elektronik", price: "Rp 699.000" },
-    { id: 7, name: "Mouse Wireless Ergo Click", category: "Elektronik", price: "Rp 249.000" },
-    { id: 8, name: "Kaos Oversize Cotton Ease", category: "Fashion", price: "Rp 159.000" },
-    { id: 9, name: "Kemeja Linen Casual Breeze", category: "Fashion", price: "Rp 289.000" },
-    { id: 10, name: "Celana Chino Modern Fit", category: "Fashion", price: "Rp 329.000" },
-    { id: 11, name: "Skincare Hydrating Gel", category: "Beauty", price: "Rp 119.000" },
-    { id: 12, name: "Parfum Daily Fresh Aura", category: "Beauty", price: "Rp 219.000" },
-    { id: 13, name: "Sepatu Formal Executive Brown", category: "Sepatu", price: "Rp 629.000" },
-    { id: 14, name: "Sandal Casual FlexWalk", category: "Sepatu", price: "Rp 199.000" },
-    { id: 15, name: "Dompet Kulit Compact", category: "Aksesoris", price: "Rp 189.000" },
-];
-
 export default function SearchBar() {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -36,19 +18,37 @@ export default function SearchBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number>(-1);
 
+    const [products, setProducts] = useState<ProductSuggestion[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchProducts = async (searchQuery: string = "") => {
+        try {
+            setIsLoading(true);
+
+            const endpoint = searchQuery.trim()
+                ? `/api/products?q=${encodeURIComponent(searchQuery)}`
+                : "/api/products";
+
+            const response = await fetch(endpoint);
+            const result = await response.json();
+
+            if (result.success) {
+                setProducts(result.data);
+            } else {
+                setProducts([]);
+            }
+        } catch (error) {
+            console.error("Gagal mengambil data produk:", error);
+            setProducts([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     // Filter rekomendasi berdasarkan kata kunci yang diketik user.
     const filteredProducts = useMemo(() => {
-        const keyword = query.trim().toLowerCase();
-
-        if (!keyword) {
-            // Saat belum mengetik apa pun, tampilkan placeholder recommendation.
-            return MOCK_PRODUCTS.slice(0, 8);
-        }
-
-        return MOCK_PRODUCTS.filter((product) =>
-            `${product.name} ${product.category}`.toLowerCase().includes(keyword)
-        ).slice(0, 8);
-    }, [query]);
+        return products.slice(0, 8);
+    }, [products]);
 
     const showDropdown = isOpen && (filteredProducts.length > 0 || query.trim().length > 0);
 
@@ -58,6 +58,10 @@ export default function SearchBar() {
         setActiveIndex(-1);
         inputRef.current?.focus();
     };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -147,8 +151,10 @@ export default function SearchBar() {
                     value={query}
                     onFocus={() => setIsOpen(true)}
                     onChange={(event) => {
-                        setQuery(event.target.value);
+                        const value = event.target.value;
+                        setQuery(value);
                         setIsOpen(true);
+                        fetchProducts(value);
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder="Cari produk, kategori, atau brand..."
@@ -165,6 +171,7 @@ export default function SearchBar() {
                         onClick={() => {
                             setQuery("");
                             setIsOpen(true);
+                            fetchProducts();
                             inputRef.current?.focus();
                         }}
                         className="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
@@ -210,7 +217,11 @@ export default function SearchBar() {
                     role="listbox"
                     className="max-h-90 overflow-y-auto p-3"
                 >
-                    {filteredProducts.length > 0 ? (
+                    {isLoading ? (
+                        <li className="px-4 py-10 text-center">
+                            <p className="text-sm text-slate-500">Memuat data produk...</p>
+                        </li>
+                    ) : filteredProducts.length > 0 ? (
                         filteredProducts.map((product, index) => {
                             const isActive = index === activeIndex;
                             return (
