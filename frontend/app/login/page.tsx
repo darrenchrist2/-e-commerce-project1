@@ -64,10 +64,10 @@ export default function Page() {
                     </div>
 
                     <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
-                    Welcome back!
+                        Welcome back!
                     </h1>
                     <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Please sign in to continue
+                        Please sign in to continue
                     </p>
                 </div>
 
