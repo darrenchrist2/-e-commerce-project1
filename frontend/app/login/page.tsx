@@ -65,7 +65,7 @@ export default function Page() {
                             alt="Logo Ecommerce"
                             width={60}
                             height={60}
-                            className="object-contain transition-all duration-300 hover:scale-110 hover:rotate-3"
+                            className="object-contain transition-all duration-300 hover:scale-110 hover:rotate-3 active:scale-95"
                         />
                     </div>
 
