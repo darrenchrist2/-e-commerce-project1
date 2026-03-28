@@ -30,6 +30,7 @@ const MOCK_PRODUCTS: ProductSuggestion[] = [
 export default function SearchBar() {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const listRef = useRef<HTMLUListElement | null>(null);
 
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -69,6 +70,19 @@ export default function SearchBar() {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        if (activeIndex < 0 || !listRef.current) return;
+
+        const activeItem = listRef.current.querySelector<HTMLElement>(
+            `[data-suggestion-index="${activeIndex}"]`
+        );
+
+        activeItem?.scrollIntoView({
+            block: "nearest",
+            behavior: "smooth",
+        });
+    }, [activeIndex]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (!showDropdown) return;
@@ -191,6 +205,7 @@ export default function SearchBar() {
                 </div>
 
                 <ul
+                    ref={listRef}
                     id="product-suggestion-list"
                     role="listbox"
                     className="max-h-90 overflow-y-auto p-3"
@@ -202,6 +217,7 @@ export default function SearchBar() {
                                 <li key={product.id} role="option" aria-selected={isActive}>
                                     <button
                                         type="button"
+                                        data-suggestion-index={index}
                                         onMouseDown={(event) => {
                                             // Mencegah input blur sebelum click selesai.
                                             event.preventDefault();
@@ -232,10 +248,10 @@ export default function SearchBar() {
                     ) : (
                             <li className="px-4 py-10 text-center">
                                 <p className="text-sm font-medium text-slate-700">
-                                Produk tidak ditemukan
+                                    Produk tidak ditemukan
                                 </p>
                                 <p className="mt-1 text-sm text-slate-500">
-                                Coba gunakan kata kunci lain.
+                                    Coba gunakan kata kunci lain.
                                 </p>
                             </li>
                         )
