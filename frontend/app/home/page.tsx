@@ -7,14 +7,14 @@ export default function Page() {
             <div className="mx-auto max-w-6xl">
                 
                 {/* Container horizontal */}
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     {/* Logo */}
                     <Image
                         src="/logo_ecommerce1.png"
                         alt="Logo Ecommerce"
                         width={44}
                         height={44}
-                        className="object-contain transition-all duration-300 hover:scale-110 hover:rotate-3"
+                        className="mx-auto sm:mx-0 object-contain transition-all duration-300 hover:scale-110 hover:rotate-3 active:scale-95"
                     />
                     {/* Search bar */}
                     <div className="flex-1">
