@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 
 export default function Page() {
     // State untuk menyimpan nilai input username.
@@ -58,9 +58,15 @@ export default function Page() {
             {/* Card login diberi animasi fade-up saat pertama kali muncul. */}
             <section className="relative w-full max-w-md animate-[fadeUp_.8s_ease-out] rounded-2xl border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:rounded-3xl sm:p-8 lg:p-10">
                 <div className="mb-6 text-center sm:mb-8">
-                    {/* Badge kecil untuk memberi identitas visual yang rapi. */}
-                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-base font-semibold text-slate-700 shadow-sm transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14 sm:text-lg">
-                        <i className="ri-shopping-cart-2-fill"></i>
+                    {/* logo */}
+                    <div className="mx-auto mb-4 flex items-center justify-center">
+                        <Image
+                            src="/logo_ecommerce1.png"
+                            alt="Logo Ecommerce"
+                            width={60}
+                            height={60}
+                            className="object-contain transition-all duration-300 hover:scale-110 hover:rotate-3"
+                        />
                     </div>
 
                     <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
