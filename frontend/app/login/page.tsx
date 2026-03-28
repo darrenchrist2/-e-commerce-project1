@@ -1,0 +1,219 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+
+
+export default function Page() {
+  // State untuk menyimpan nilai input username.
+    const [username, setUsername] = useState("");
+
+    // State untuk menyimpan nilai input password.
+    const [password, setPassword] = useState("");
+
+    // State untuk simulasi loading saat tombol login ditekan.
+    const [isLoading, setIsLoading] = useState(false);
+
+    // State untuk menampilkan atau menyembunyikan password.
+    const [showPassword, setShowPassword] = useState(false);
+
+    // State untuk feedback sederhana setelah submit.
+    const [message, setMessage] = useState("");
+
+    // Validasi sederhana agar tombol login hanya aktif jika kedua field terisi.
+    const isFormValid = useMemo(() => {
+        return username.trim().length > 0 && password.trim().length > 0;
+    }, [username, password]);
+
+    const router = useRouter(); //router digunakan untuk navigasi setelah login berhasil
+
+    const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!isFormValid || isLoading) return;
+
+        setIsLoading(true);
+        setMessage("");
+
+        // Simulasi request login agar animasi loading terlihat halus.
+        await new Promise((resolve) => setTimeout(resolve, 1400));
+
+        setIsLoading(false);
+        setMessage("Login berhasil diproses. Silakan hubungkan ke API autentikasi Anda.");
+        setTimeout(() => {
+            router.push("/home");
+        }, 2000);
+    };
+
+    return (
+        // Wrapper utama dibuat full screen agar card benar-benar center secara vertikal dan horizontal.
+        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 px-6 py-10">
+            {/* Background dekoratif dibuat soft agar tetap modern, cerah, dan tidak terlalu mencolok. */}
+            <div className="absolute inset-0">
+                <div className="absolute -left-32 -top-24 h-72 w-72 rounded-full bg-sky-100/70 blur-3xl" />
+                <div className="absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-cyan-100/70 blur-3xl" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.95),rgba(248,250,252,0.85),rgba(241,245,249,1))]" />
+            </div>
+
+            {/* Card login diberi animasi fade-up saat pertama kali muncul. */}
+            <section className="relative w-full max-w-md animate-[fadeUp_.8s_ease-out] rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:p-10">
+                <div className="mb-8 text-center">
+                    {/* Badge kecil untuk memberi identitas visual yang rapi. */}
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-lg font-semibold text-slate-700 shadow-sm transition-transform duration-300 hover:scale-105">
+                    <i className="ri-shopping-cart-2-fill"></i>
+                    </div>
+
+                    <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+                    Welcome back!
+                    </h1>
+                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Please sign in to continue
+                    </p>
+                </div>
+
+                {/* Feedback message diberi animasi transisi agar tampil lebih smooth. */}
+                <div
+                    className={`mb-4 grid transition-all duration-300 ${
+                        message ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                >
+                    <div className="overflow-hidden">
+                        <div className="flex items-start justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        
+                            {/* Text message */}
+                            <span className="leading-relaxed">{message}</span>
+
+                            {/* Close button */}
+                            <button
+                                type="button"
+                                onClick={() => setMessage("")}
+                                className="mt-0.5 rounded-md p-1 text-emerald-500 transition hover:bg-emerald-100 hover:text-emerald-700"
+                                aria-label="Close message"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="username"
+                            className="text-sm font-medium text-slate-700"
+                        >
+                            Username
+                        </label>
+
+                        {/* Input dibuat dengan focus ring halus agar terasa interaktif dan profesional. */}
+                        <div className="group rounded-2xl border border-slate-200 bg-white transition-all duration-300 focus-within:border-sky-300 focus-within:shadow-[0_0_0_4px_rgba(186,230,253,0.45)] hover:border-slate-300">
+                            <input
+                                id="username"
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="Enter your username"
+                                autoComplete="username"
+                                className="h-12 w-full rounded-2xl bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="password"
+                            className="text-sm font-medium text-slate-700"
+                        >
+                            Password
+                        </label>
+
+                        {/* Wrapper jadi relative supaya icon bisa absolute */}
+                        <div className="group relative rounded-2xl border border-slate-200 bg-white transition-all duration-300 focus-within:border-sky-300 focus-within:shadow-[0_0_0_4px_rgba(186,230,253,0.45)] hover:border-slate-300">
+                            
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter your password"
+                                autoComplete="current-password"
+                                className="h-12 w-full rounded-2xl bg-transparent px-4 pr-12 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                            />
+
+                            {/* Icon mata di dalam input */}
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition-colors duration-200 hover:text-slate-600"
+                            >
+                                {showPassword ? (
+                                    <i className="ri-eye-off-fill text-lg"></i>
+                                ) : (
+                                    <i className="ri-eye-fill text-lg"></i>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4 pt-1">
+                        <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-500">
+                            <input
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-slate-300 text-slate-900 accent-slate-700"
+                            />
+                            Remember me
+                        </label>
+
+                        <button
+                            type="button"
+                            className="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900"
+                        >
+                            Forgot password?
+                        </button>
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={!isFormValid || isLoading}
+                        // Tombol punya state hover, active, disabled, dan loading agar pengalaman terasa hidup.
+                        className="group relative flex h-12 w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-800 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300"
+                    >
+                        <span
+                            className={`absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] transition-transform duration-700 ${
+                            isLoading ? "translate-x-full" : "-translate-x-full group-hover:translate-x-full"
+                            }`}
+                        />
+
+                        <span className="relative flex items-center gap-2">
+                            {isLoading && (
+                                // Loader sederhana memakai border spinner agar tidak perlu library tambahan.
+                                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                            )}
+                            {isLoading ? "Signing in..." : "Login"}
+                        </span>
+                    </button>
+                </form>
+
+                <p className="mt-6 text-center text-xs text-slate-400">
+                    Protected access for authorized users only.
+                </p>
+            </section>
+
+            {/* Style keyframes ditaruh langsung di file agar sesuai permintaan single file page.tsx. */}
+            <style jsx>
+                {`
+                    @keyframes fadeUp {
+                        from {
+                        opacity: 0;
+                        transform: translateY(24px) scale(0.98);
+                        }
+                        to {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                        }
+                    }
+                `}
+            </style>
+        </main>
+    );
+}
