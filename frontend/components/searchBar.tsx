@@ -193,7 +193,7 @@ export default function SearchBar() {
                 <ul
                     id="product-suggestion-list"
                     role="listbox"
-                    className="max-h-[360px] overflow-y-auto p-3"
+                    className="max-h-90 overflow-y-auto p-3"
                 >
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map((product, index) => {
