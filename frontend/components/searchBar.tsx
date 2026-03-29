@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type ProductSuggestion = {
     id: number;
@@ -10,6 +11,8 @@ type ProductSuggestion = {
 };
 
 export default function SearchBar() {
+    const router = useRouter();
+
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const listRef = useRef<HTMLUListElement | null>(null);
@@ -56,7 +59,7 @@ export default function SearchBar() {
         setQuery(productName);
         setIsOpen(false);
         setActiveIndex(-1);
-        inputRef.current?.focus();
+        pushQueryToUrl(productName);
     };
 
     useEffect(() => {
@@ -106,10 +109,16 @@ export default function SearchBar() {
         }
 
         if (event.key === "Enter") {
+            event.preventDefault();
+
             if (activeIndex >= 0 && filteredProducts[activeIndex]) {
-                event.preventDefault();
                 handleSelect(filteredProducts[activeIndex].name);
+                return;
             }
+
+            pushQueryToUrl(query);
+            setIsOpen(false);
+            setActiveIndex(-1);
         }
 
         if (event.key === "Escape") {
@@ -122,6 +131,17 @@ export default function SearchBar() {
         // Reset active item saat hasil filter berubah.
         setActiveIndex(-1);
     }, [query]);
+
+    const pushQueryToUrl = (searchValue: string) => {
+        const trimmedValue = searchValue.trim();
+
+        if (!trimmedValue) {
+            router.push("/");
+            return;
+        }
+
+        router.push(`/home?q=${encodeURIComponent(trimmedValue)}`);
+    };
 
     return (
         <div ref={wrapperRef} className="relative w-full max-w-3xl">
