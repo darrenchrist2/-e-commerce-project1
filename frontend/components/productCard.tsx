@@ -48,7 +48,7 @@ export default function ProductCard({
         >
             {/* Section 1: image */}
             <div className="relative overflow-hidden rounded-xl bg-slate-100">
-                <div className="relative aspect-[4/3] w-full">
+                <div className="relative aspect-4/3 w-full">
                     <Image
                         src={imageUrl}
                         alt={imageAlt || name}
@@ -58,7 +58,7 @@ export default function ProductCard({
                     />
                 </div>
 
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-white/20 opacity-80" />
+                <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-white/10 via-transparent to-white/20 opacity-80" />
             </div>
 
             {/* Section 2: nama + harga */}
