@@ -1,4 +1,5 @@
 import SearchBar from "@/components/searchBar";
+import ProductCardSection from "@/components/productCardSection";
 import Image from "next/image";
 
 export default function Page() {
@@ -6,8 +7,8 @@ export default function Page() {
         <main className="min-h-screen bg-slate-50 px-4 py-10">
             <div className="mx-auto max-w-6xl">
                 
-                {/* Container horizontal */}
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                {/* header section (logo, searchbar, cart) */}
+                <section className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     {/* Logo */}
                     <Image
                         src="/logo_ecommerce1.png"
@@ -20,7 +21,10 @@ export default function Page() {
                     <div className="flex-1">
                         <SearchBar />
                     </div>
-                </div>
+                </section>
+
+                {/* product card section */}
+                <ProductCardSection />
 
             </div>
         </main>
