@@ -40,7 +40,7 @@ export default function ProductCard({
     return (
         <article
             className={[
-                "group w-full overflow-hidden rounded-2xl border border-white/70 bg-white/90 p-2.5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-sm transition-all duration-300",
+                "group w-full overflow-hidden rounded-2xl border border-white/70 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-sm transition-all duration-300 sm:p-2.5",
                 "hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(15,23,42,0.10)]",
                 className,
             ].join(" ")}
@@ -62,11 +62,11 @@ export default function ProductCard({
 
             {/* Section 2: nama + harga */}
             <div className="px-1 pt-3">
-                <h3 className="line-clamp-2 min-h-10 text-sm font-medium leading-5 text-slate-800">
+                <h3 className="line-clamp-2 min-h-9 text-xs font-medium leading-4 text-slate-800 sm:min-h-10 sm:text-sm sm:leading-5">
                     {name}
                 </h3>
 
-                <p className="mt-1.5 text-sm font-bold tracking-tight text-slate-900 sm:text-base">
+                <p className="mt-1 text-xs font-bold tracking-tight text-slate-900 sm:mt-1.5 sm:text-base">
                     {formatRupiah(price)}
                 </p>
             </div>
@@ -76,7 +76,7 @@ export default function ProductCard({
                 <button
                     type="button"
                     onClick={onViewDetail}
-                    className="cursor-pointer flex h-9 w-3/4 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-3 text-xs font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:text-sm"
+                    className="cursor-pointer flex h-8 w-3/4 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-2 text-[11px] font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:h-9 sm:px-3 sm:text-sm"
                 >
                     View Detail
                 </button>
@@ -85,7 +85,7 @@ export default function ProductCard({
                     type="button"
                     onClick={onAddToCart}
                     aria-label={`Add ${name} to cart`}
-                    className="cursor-pointer flex h-9 w-1/4 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96]"
+                    className="cursor-pointer flex h-8 w-1/4 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96] sm:h-9"
                 >
                     <i className="ri-shopping-cart-2-line text-base" />
                 </button>
