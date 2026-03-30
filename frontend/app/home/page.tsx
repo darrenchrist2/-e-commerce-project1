@@ -1,6 +1,6 @@
 import SearchBar from "@/components/searchBar";
 import ProductCardSection from "@/components/productCardSection";
-import ProductFilter, { ProductFilterValue } from "@/components/productFilter";
+import ProductFilter from "@/components/productFilter";
 import Image from "next/image";
 
 export default function Page() {
