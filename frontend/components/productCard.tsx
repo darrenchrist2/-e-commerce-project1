@@ -42,7 +42,6 @@ export default function ProductCard({
             className={[
                 "group w-full overflow-hidden rounded-2xl border border-white/70 bg-white/90 p-2.5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-sm transition-all duration-300",
                 "hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(15,23,42,0.10)]",
-                "active:scale-[0.99]",
                 className,
             ].join(" ")}
         >
@@ -77,7 +76,7 @@ export default function ProductCard({
                 <button
                     type="button"
                     onClick={onViewDetail}
-                    className="flex h-9 w-3/4 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-3 text-xs font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:text-sm"
+                    className="cursor-pointer flex h-9 w-3/4 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-3 text-xs font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:text-sm"
                 >
                     View Detail
                 </button>
@@ -86,7 +85,7 @@ export default function ProductCard({
                     type="button"
                     onClick={onAddToCart}
                     aria-label={`Add ${name} to cart`}
-                    className="flex h-9 w-1/4 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96]"
+                    className="cursor-pointer flex h-9 w-1/4 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96]"
                 >
                     <i className="ri-shopping-cart-2-line text-base" />
                 </button>
