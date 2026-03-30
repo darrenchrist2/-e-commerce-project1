@@ -234,7 +234,7 @@ export default function ProductFilter({
             <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
                 <div>
                     <h2 className="text-sm font-semibold tracking-tight text-slate-900">
-                        Filter Produk
+                        <i className="ri-filter-line text-base" /> Filter Produk
                     </h2>
                     <p className="mt-1 text-xs text-slate-500">
                         Sesuaikan pencarian sesuai kebutuhan
