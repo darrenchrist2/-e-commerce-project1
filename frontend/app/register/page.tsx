@@ -12,7 +12,13 @@ export default function Page() {
     // State untuk menyimpan nilai input password.
     const [password, setPassword] = useState("");
 
-    // State untuk simulasi loading saat tombol login ditekan.
+    // State untuk menyimpan nilai input email.
+    const [email, setEmail] = useState("");
+
+    // State untuk menyimpan status checkbox "I agree to Terms".
+    const [isAgree, setIsAgree] = useState(false);
+
+    // State untuk simulasi loading saat tombol register ditekan.
     const [isLoading, setIsLoading] = useState(false);
 
     // State untuk menampilkan atau menyembunyikan password.
@@ -22,12 +28,12 @@ export default function Page() {
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState<"success" | "error">("success");
 
-    // Validasi sederhana agar tombol login hanya aktif jika kedua field terisi.
+    // Validasi sederhana agar tombol register hanya aktif jika kedua field terisi.
     const isFormValid = useMemo(() => {
-        return username.trim().length > 0 && password.trim().length > 0;
-    }, [username, password]);
+        return username.trim().length > 0 && password.trim().length > 0 && email.trim().length > 0 && isAgree;
+    }, [username, password, email, isAgree]);
 
-    const router = useRouter(); //router digunakan untuk navigasi setelah login berhasil
+    const router = useRouter(); //router digunakan untuk navigasi setelah register berhasil
 
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -38,7 +44,7 @@ export default function Page() {
             setIsLoading(true);
             setMessage("");
 
-            const response = await fetch("/api/users/login", {
+            const response = await fetch("/api/users/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,6 +52,7 @@ export default function Page() {
                 body: JSON.stringify({
                     username,
                     password,
+                    email,
                 }),
             });
 
@@ -53,18 +60,18 @@ export default function Page() {
 
             if (!response.ok || !result.success) {
                 setMessageType("error");
-                setMessage(result.message || "Login gagal");
+                setMessage(result.message || "Register gagal");
                 return;
             }
 
             setMessageType("success");
-            setMessage(result.message || "Login berhasil");
+            setMessage(result.message || "Register berhasil");
 
             setTimeout(() => {
                 router.push("/home");
             }, 1200);
         } catch (error) {
-            console.error("Login form error:", error);
+            console.error("Register form error:", error);
             setMessageType("error");
             setMessage("Terjadi kesalahan saat menghubungkan ke server");
         } finally {
@@ -82,7 +89,7 @@ export default function Page() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.95),rgba(248,250,252,0.85),rgba(241,245,249,1))]" />
             </div>
 
-            {/* Card login diberi animasi fade-up saat pertama kali muncul. */}
+            {/* Card register diberi animasi fade-up saat pertama kali muncul. */}
             <section className="relative w-full max-w-md animate-[fadeUp_.8s_ease-out] rounded-2xl border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:rounded-3xl sm:p-8 lg:p-10">
                 <div className="mb-6 text-center sm:mb-8">
                     {/* logo */}
@@ -100,7 +107,7 @@ export default function Page() {
                         Welcome back!
                     </h1>
                     <p className="mt-2 text-sm leading-5 text-slate-500 sm:leading-6">
-                        Please sign in to continue
+                        Please sign up to continue
                     </p>
                 </div>
 
@@ -167,6 +174,31 @@ export default function Page() {
 
                     <div className="space-y-2">
                         <label
+                            htmlFor="email"
+                            className="text-sm font-medium text-slate-700"
+                        >
+                            Email
+                        </label>
+
+                        {/* Input dibuat dengan focus ring halus agar terasa interaktif dan profesional. */}
+                        <div className="group rounded-2xl border border-slate-200 bg-white transition-all duration-300 focus-within:border-sky-300 focus-within:shadow-[0_0_0_4px_rgba(186,230,253,0.45)] hover:border-slate-300">
+                            <input
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    if (message) setMessage("");
+                                }}
+                                placeholder="Enter your email"
+                                autoComplete="email"
+                                className="h-11 w-full rounded-2xl bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:h-12"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <label
                             htmlFor="password"
                             className="text-sm font-medium text-slate-700"
                         >
@@ -205,21 +237,32 @@ export default function Page() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-start gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                        <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-500">
+                    <div className="pt-1">
+                        <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-500">
                             <input
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-slate-300 text-slate-900 accent-slate-700"
+                                checked={isAgree}
+                                onChange={(e) => setIsAgree(e.target.checked)}
+                                className="mt-0.5 h-4 w-4 rounded border-slate-300 accent-slate-700"
                             />
-                            Remember me
+                            <span>
+                                I agree to the{" "}
+                                <Link
+                                    href="#"
+                                    className="font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900"
+                                >
+                                    Terms of Use
+                                </Link>{" "}
+                                and{" "}
+                                <Link
+                                    href="#"
+                                    className="font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900"
+                                >
+                                    Privacy Policy
+                                </Link>
+                                .
+                            </span>
                         </label>
-
-                        <button
-                            type="button"
-                            className="cursor-pointer text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900"
-                        >
-                            Forgot password?
-                        </button>
                     </div>
 
                     <button
@@ -239,18 +282,18 @@ export default function Page() {
                                 // Loader sederhana memakai border spinner agar tidak perlu library tambahan.
                                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                             )}
-                            {isLoading ? "Signing in..." : "Login"}
+                            {isLoading ? "Signing up..." : "Sign up"}
                         </span>
                     </button>
                 </form>
 
                 <p className="mt-5 text-center text-[11px] text-slate-500 sm:mt-6 sm:text-xs">
-                    Don't have an account?{" "} 
+                    Already have an account?{" "} 
                     <Link
-                        href="/register"
+                        href="/login"
                         className="font-medium text-slate-700 transition-colors duration-200 hover:text-slate-900"
                     >
-                        Sign up
+                        Sign in
                     </Link>
                 </p>
             </section>
