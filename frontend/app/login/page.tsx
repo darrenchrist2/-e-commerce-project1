@@ -19,6 +19,7 @@ export default function Page() {
 
     // State untuk feedback sederhana setelah submit.
     const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState<"success" | "error">("success");
 
     // Validasi sederhana agar tombol login hanya aktif jika kedua field terisi.
     const isFormValid = useMemo(() => {
@@ -32,17 +33,42 @@ export default function Page() {
 
         if (!isFormValid || isLoading) return;
 
-        setIsLoading(true);
-        setMessage("");
+        try {
+            setIsLoading(true);
+            setMessage("");
 
-        // Simulasi request login agar animasi loading terlihat halus.
-        await new Promise((resolve) => setTimeout(resolve, 1400));
+            const response = await fetch("/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                }),
+            });
 
-        setIsLoading(false);
-        setMessage("Login berhasil diproses. Silakan hubungkan ke API autentikasi Anda.");
-        setTimeout(() => {
-            router.push("/home");
-        }, 2000);
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                setMessageType("error");
+                setMessage(result.message || "Login gagal");
+                return;
+            }
+
+            setMessageType("success");
+            setMessage(result.message || "Login berhasil");
+
+            setTimeout(() => {
+                router.push("/home");
+            }, 1200);
+        } catch (error) {
+            console.error("Login form error:", error);
+            setMessageType("error");
+            setMessage("Terjadi kesalahan saat menghubungkan ke server");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -84,7 +110,13 @@ export default function Page() {
                     }`}
                 >
                     <div className="overflow-hidden">
-                        <div className="flex items-start justify-between gap-2 rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-3 text-sm text-emerald-700 sm:gap-3 sm:px-4">
+                        <div
+                            className={`flex items-start justify-between gap-2 rounded-2xl px-3 py-3 text-sm sm:gap-3 sm:px-4 ${
+                                messageType === "success"
+                                    ? "border border-emerald-100 bg-emerald-50 text-emerald-700"
+                                    : "border border-red-100 bg-red-50 text-red-700"
+                            }`}
+                        >
                         
                             {/* Text message */}
                             <span className="leading-relaxed">{message}</span>
@@ -93,7 +125,11 @@ export default function Page() {
                             <button
                                 type="button"
                                 onClick={() => setMessage("")}
-                                className="mt-0.5 rounded-md p-1 text-emerald-500 transition hover:bg-emerald-100 hover:text-emerald-700"
+                                className={`mt-0.5 rounded-md p-1 transition ${
+                                    messageType === "success"
+                                        ? "text-emerald-500 hover:bg-emerald-100 hover:text-emerald-700"
+                                        : "text-red-500 hover:bg-red-100 hover:text-red-700"
+                                }`}
                                 aria-label="Close message"
                             >
                                 ✕
@@ -117,7 +153,10 @@ export default function Page() {
                                 id="username"
                                 type="text"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e) => {
+                                    setUsername(e.target.value);
+                                    if (message) setMessage("");
+                                }}
                                 placeholder="Enter your username"
                                 autoComplete="username"
                                 className="h-11 w-full rounded-2xl bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:h-12"
@@ -140,7 +179,10 @@ export default function Page() {
                                 id="password"
                                 type={showPassword ? "text" : "password"}
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                    if (message) setMessage("");
+                                }}
                                 placeholder="Enter your password"
                                 autoComplete="current-password"
                                 className="h-11 w-full rounded-2xl bg-transparent px-4 pr-12 text-sm text-slate-900 outline-none placeholder:text-slate-400 sm:h-12"
