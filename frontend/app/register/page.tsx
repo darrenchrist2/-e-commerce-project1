@@ -243,7 +243,7 @@ export default function Page() {
                                 type="checkbox"
                                 checked={isAgree}
                                 onChange={(e) => setIsAgree(e.target.checked)}
-                                className="mt-0.5 h-4 w-4 rounded border-slate-300 accent-slate-700"
+                                className="mt-0.5 h-4 w-4 rounded border-slate-300 accent-slate-700 cursor-pointer"
                             />
                             <span>
                                 I agree to the{" "}

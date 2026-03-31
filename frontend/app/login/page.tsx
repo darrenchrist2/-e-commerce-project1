@@ -209,7 +209,7 @@ export default function Page() {
                         <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-500">
                             <input
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-slate-300 text-slate-900 accent-slate-700"
+                                className="h-4 w-4 rounded border-slate-300 text-slate-900 accent-slate-700 cursor-pointer"
                             />
                             Remember me
                         </label>
