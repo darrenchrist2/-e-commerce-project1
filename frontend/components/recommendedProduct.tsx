@@ -56,7 +56,7 @@ export default function RecommendedProductSection() {
                     </p>
                 </div>
 
-                <button className="text-sm font-semibold text-orange-500 hover:text-orange-600">
+                <button className="text-sm font-semibold text-orange-500 hover:text-orange-600 cursor-pointer">
                     Lihat Semua
                 </button>
             </div>
