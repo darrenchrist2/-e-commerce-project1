@@ -1,7 +1,7 @@
-import HeaderSection from "@/components/headerSection";
-import CarouselSection from "@/components/carouselSection";
-import ProductCategorySection from "@/components/productCategorySection";
-import RecommendedProductSection from "@/components/recommendedProduct";
+import HeaderSection from "@/components/resultPage/headerSection";
+import CarouselSection from "@/components/homePage/carouselSection";
+import ProductCategorySection from "@/components/homePage/productCategorySection";
+import RecommendedProductSection from "@/components/homePage/recommendedProduct";
 
 export default function Page() {
     return (

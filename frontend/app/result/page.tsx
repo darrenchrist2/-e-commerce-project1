@@ -1,6 +1,6 @@
-import ProductCardSection from "@/components/productCardSection";
-import ProductFilter from "@/components/productFilter";
-import HeaderSection from "@/components/headerSection";
+import ProductCardSection from "@/components/resultPage/productCardSection";
+import ProductFilter from "@/components/resultPage/productFilter";
+import HeaderSection from "@/components/resultPage/headerSection";
 
 export default function Page() {
     return (
