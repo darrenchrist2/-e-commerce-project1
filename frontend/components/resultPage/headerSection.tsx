@@ -1,6 +1,7 @@
 "use client";
 
 import SearchBar from "@/components/resultPage/searchBar";
+import CartDropdown from "@/components/resultPage/cartDropdown";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,6 +23,9 @@ export default function HeaderSection() {
             <div className="flex-1">
                 <SearchBar />
             </div>
+
+            {/* Cart */}
+            <CartDropdown />
         </>
     );
 }

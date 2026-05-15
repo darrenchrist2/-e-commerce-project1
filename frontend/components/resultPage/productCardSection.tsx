@@ -119,11 +119,12 @@ export default function ProductCardSection() {
             {products.map((product) => (
                 <ProductCard
                     key={product.id}
+                    id={product.id}
                     name={product.name}
+                    category={product.category || "Tanpa Kategori"}
                     price={product.price}
                     imageUrl={product.imageUrl || "/products/default-product.jpg"}
-                    onViewDetail={() => console.log("View detail", product.id)}
-                    onAddToCart={() => console.log("Add to cart", product.id)}
+                    imageAlt={product.name}
                 />
             ))}
         </section>

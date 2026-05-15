@@ -3,13 +3,22 @@
 import Image from "next/image";
 
 type ProductCardProps = {
+    id: number;
     name: string;
+    category: string;
     price: number | string;
     imageUrl: string;
     imageAlt?: string;
     onViewDetail?: () => void;
     onAddToCart?: () => void;
     className?: string;
+};
+
+type Product = {
+    id: number;
+    name: string;
+    category: string;
+    price: string;
 };
 
 function formatRupiah(price: number | string) {
@@ -29,7 +38,9 @@ function formatRupiah(price: number | string) {
 }
 
 export default function ProductCard({
+    id,
     name,
+    category,
     price,
     imageUrl,
     imageAlt,
@@ -37,6 +48,37 @@ export default function ProductCard({
     onAddToCart,
     className = "",
 }: ProductCardProps) {
+    function handleAddToCart() {
+        const newProduct: Product = {
+            id,
+            name,
+            category,
+            price: formatRupiah(price),
+        };
+
+        const storedCart = localStorage.getItem("cartItems");
+        const cartItems: Product[] = storedCart ? JSON.parse(storedCart) : [];
+
+        const existingProduct = cartItems.find((item) => item.id === id);
+
+        if (existingProduct) {
+            alert("Produk sudah ada di keranjang.");
+            return;
+        }
+
+        const updatedCart = [...cartItems, newProduct];
+
+        localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+
+        window.dispatchEvent(new Event("cartUpdated"));
+
+        if (onAddToCart) {
+            onAddToCart();
+        }
+
+        alert("Produk berhasil ditambahkan ke keranjang.");
+    }
+
     return (
         <article
             className={[
@@ -76,16 +118,16 @@ export default function ProductCard({
                 <button
                     type="button"
                     onClick={onViewDetail}
-                    className="cursor-pointer flex h-8 w-3/4 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-2 text-[11px] font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:h-9 sm:px-3 sm:text-sm"
+                    className="flex h-8 w-3/4 cursor-pointer items-center justify-center rounded-xl border border-sky-100 bg-sky-50 px-2 text-[11px] font-medium text-slate-700 transition-all duration-300 hover:border-sky-200 hover:bg-sky-100/70 hover:text-slate-900 active:scale-[0.98] sm:h-9 sm:px-3 sm:text-sm"
                 >
                     View Detail
                 </button>
 
                 <button
                     type="button"
-                    onClick={onAddToCart}
+                    onClick={handleAddToCart}
                     aria-label={`Add ${name} to cart`}
-                    className="cursor-pointer flex h-8 w-1/4 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96] sm:h-9"
+                    className="flex h-8 w-1/4 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.96] sm:h-9"
                 >
                     <i className="ri-shopping-cart-2-line text-base" />
                 </button>
