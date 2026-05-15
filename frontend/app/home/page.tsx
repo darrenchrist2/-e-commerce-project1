@@ -1,36 +1,25 @@
-import ProductCardSection from "@/components/productCardSection";
-import ProductFilter from "@/components/productFilter";
 import HeaderSection from "@/components/headerSection";
+import CarouselSection from "@/components/carouselSection";
+import ProductCategorySection from "@/components/productCategorySection";
+import RecommendedProductSection from "@/components/recommendedProduct";
 
 export default function Page() {
     return (
         <main className="min-h-screen bg-slate-50 px-4 py-10">
             <div className="mx-auto max-w-6xl">
-                
-                {/* header section (logo, searchbar, cart) */}
+                {/* header section */}
                 <section className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     <HeaderSection />
                 </section>
 
-                {/* content section */}
-                <section className="mt-6 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
-                    {/* sidebar desktop */}
-                    <ProductFilter 
-                        defaultValue={{
-                            locations: [],
-                            sellerTypes: [],
-                            paymentMethods: [],
-                            shippingOptions: [],
-                            promoPrograms: [],
-                            categories: [],
-                        }} 
-                    />
+                {/* section 1 - carousel */}
+                <CarouselSection />
 
-                    {/* product list */}
-                    <div className="min-w-0">
-                        <ProductCardSection />
-                    </div>
-                </section>
+                {/* section 2 - categories */}
+                <ProductCategorySection />
+
+                {/* section 3 - recommended products */}
+                <RecommendedProductSection />
             </div>
         </main>
     );

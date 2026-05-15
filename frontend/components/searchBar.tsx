@@ -140,7 +140,7 @@ export default function SearchBar() {
             return;
         }
 
-        router.push(`/home?q=${encodeURIComponent(trimmedValue)}`);
+        router.push(`/result?q=${encodeURIComponent(trimmedValue)}`);
     };
 
     return (
