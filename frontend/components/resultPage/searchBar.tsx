@@ -10,6 +10,22 @@ type ProductSuggestion = {
     price: string;
 };
 
+function formatRupiah(price: string | number) {
+    const numericPrice =
+        typeof price === "string"
+            ? Number(price.replace(/[^0-9.-]+/g, ""))
+            : price;
+
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    })
+        .format(numericPrice)
+        .replace("IDR", "Rp");
+}
+
 export default function SearchBar() {
     const router = useRouter();
 
@@ -270,7 +286,7 @@ export default function SearchBar() {
                                         </div>
 
                                         <span className="ml-4 shrink-0 text-xs font-medium text-slate-600">
-                                            {product.price}
+                                            {formatRupiah(product.price)}
                                         </span>
                                     </button>
                                 </li>
